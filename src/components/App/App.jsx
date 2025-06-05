@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { nanoid } from 'nanoid';
 import { contactsData } from 'data/contactsData.js';
 import { AppContainer, Title, SubTitle } from './App.styled.jsx';
@@ -11,6 +11,7 @@ const LS_KEY = 'contacts';
 export const App = () => {
   const savedContacts = localStorage.getItem(LS_KEY);
   const parsedContacts = JSON.parse(savedContacts);
+  const isFirstRender = useRef(true);
 
   const [contacts, setContacts] = useState(parsedContacts ?? contactsData);
   const [filter, setFilter] = useState('');
@@ -35,6 +36,11 @@ export const App = () => {
   };
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     localStorage.setItem(LS_KEY, JSON.stringify(contacts));
   }, [contacts]);
 
@@ -47,6 +53,7 @@ export const App = () => {
       <ContactForm contacts={contacts} submitHandler={formSubmitHandler} />
       <SubTitle>Contacts</SubTitle>
       <Filter filter={filter} changeHandler={handleInputChange} />
+
       <ContactList
         contacts={contacts}
         filterNames={filterNames}
