@@ -1,63 +1,67 @@
-import { useState, useEffect, useRef } from 'react';
-import { nanoid } from 'nanoid';
-import { contactsData } from 'data/contactsData.js';
+import { useState } from 'react';
+// import { nanoid } from 'nanoid';
+// import { contactsData } from 'data/contactsData.js';
 import { AppContainer, Title, SubTitle } from './App.styled.jsx';
 import { ContactForm } from 'components/ContactForm/ContactForm.jsx';
 import { Filter } from 'components/Filter/Filter.jsx';
 import { ContactList } from 'components/ContactList/ContactList.jsx';
+import { useSelector } from 'react-redux';
 
-const LS_KEY = 'contacts';
+// const LS_KEY = 'contacts';
 
 export const App = () => {
-  const savedContacts = localStorage.getItem(LS_KEY);
-  const parsedContacts = JSON.parse(savedContacts);
-  const isFirstRender = useRef(true);
+  const contacts = useSelector(state => state.contacts.value);
+  // const savedContacts = localStorage.getItem(LS_KEY);
+  // const parsedContacts = JSON.parse(savedContacts);
+  // const isFirstRender = useRef(true);
 
-  const [contacts, setContacts] = useState(parsedContacts ?? contactsData);
+  // const [contacts, setContacts] = useState(parsedContacts ?? contactsData);
   const [filter, setFilter] = useState('');
 
-  const formSubmitHandler = data => {
-    setContacts(contacts => {
-      return [
-        ...contacts,
-        { id: nanoid(), name: data.name, number: data.number },
-      ];
-    });
-  };
+  // const formSubmitHandler = data => {
+  //   setContacts(contacts => {
+  //     return [
+  //       ...contacts,
+  //       { id: nanoid(), name: data.name, number: data.number },
+  //     ];
+  //   });
+  // };
 
   const handleInputChange = e => {
     const { value } = e.target;
     setFilter(value);
   };
 
-  const deleteContact = id => {
-    const newContacts = contacts.filter(contact => contact.id !== id);
-    setContacts(newContacts);
-  };
+  // const deleteContact = id => {
+  //   const newContacts = contacts.filter(contact => contact.id !== id);
+  //   setContacts(newContacts);
+  // };
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+  // useEffect(() => {
+  //   if (isFirstRender.current) {
+  //     isFirstRender.current = false;
+  //     return;
+  //   }
 
-    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
-  }, [contacts]);
+  //   localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const filterNames = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  // const filterNames = contacts.filter(contact =>
+  //   contact.name.toLowerCase().includes(filter.toLowerCase())
+  // );
+  const filterNames = contacts;
   return (
     <AppContainer>
       <Title>Phonebook</Title>
-      <ContactForm contacts={contacts} submitHandler={formSubmitHandler} />
+      {/* <ContactForm contacts={contacts} submitHandler={formSubmitHandler} /> */}
+      <ContactForm />
       <SubTitle>Contacts</SubTitle>
       <Filter filter={filter} changeHandler={handleInputChange} />
 
       <ContactList
-        contacts={contacts}
+        // contacts={contacts}
         filterNames={filterNames}
-        deleteContact={deleteContact}
+        // deleteContact={deleteContact}
       />
     </AppContainer>
   );
