@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterContacts } from '../../redux/filterSlice';
 import { LabelFilter, InputFilter } from './Filter.styled';
 
-export const Filter = ({ filter, changeHandler }) => {
+export const Filter = () => {
+  const filter = useSelector(state => state.filter.value);
+  const dispatch = useDispatch();
+
   return (
     <LabelFilter>
       Find contacts by name
@@ -10,14 +14,9 @@ export const Filter = ({ filter, changeHandler }) => {
         name="filter"
         title="Сontact search field"
         value={filter}
-        onChange={changeHandler}
+        onChange={e => dispatch(filterContacts(e.target.value))}
         required
       />
     </LabelFilter>
   );
-};
-
-Filter.propTypes = {
-  changeHandler: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
 };

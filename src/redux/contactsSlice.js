@@ -20,8 +20,6 @@ export const contactsSlice = createSlice({
         contact => contact.id === action.payload
       );
       state.value.splice(index, 1);
-
-      //   return state.value.filter(contact => contact.id !== action.payload);
     },
   },
 });
