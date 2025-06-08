@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
+import { getContactsValue } from '../../redux/contactsSlice';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
 export const ContactList = ({ children }) => {
-  const contacts = useSelector(state => state.contacts.value);
+  const contacts = useSelector(getContactsValue);
   return (
     contacts.length > 0 && (
       <>

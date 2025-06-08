@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid';
-// import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsSlice';
+import { addContact, getContactsValue } from '../../redux/contactsSlice';
 import {
   LabelName,
   LabelNumber,
@@ -12,7 +11,7 @@ import {
 } from './ContactForm.styled';
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts.value);
+  const contacts = useSelector(getContactsValue);
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
@@ -61,14 +60,3 @@ export const ContactForm = () => {
     </Form>
   );
 };
-
-// ContactForm.propTypes = {
-//   submitHandler: PropTypes.func.isRequired,
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//     })
-//   ),
-// };
